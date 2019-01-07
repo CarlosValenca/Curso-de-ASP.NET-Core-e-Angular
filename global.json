@@ -1,0 +1,12 @@
+/*
+  Incluído por Carlos em 06/01/ 2019
+  Os projetos estão apontando para a pasta src e a pasta tests que eu criei
+  o sdk indica a versão do dotnet que vc está trabalhando
+  Procurar conhecer melhor o DDD, o próprio Eduardo Pires tem artigos sobre isto
+*/
+{
+  "projects": [ "src", "tests" ],
+  "sdk": {
+    "version": "2.2.101"
+  }
+}
