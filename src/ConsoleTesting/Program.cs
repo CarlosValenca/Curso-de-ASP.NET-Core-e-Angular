@@ -1,42 +1,56 @@
-﻿using Eventos.IO.Domain.Models;
+﻿using Eventos.IO.Domain.Eventos.Commands;
 using System;
+using Eventos.IO.Domain.Core.Events;
+using ConsoleTesting;
 
-namespace ConsoleTesting
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            var evento = new Evento(
-                            "Nome do Evento",
-                            DateTime.Now,
-                            DateTime.Now,
-                            false,
-                            50,
-                            false,
-                            "Eduardo Pires");
-            
-            // Estou usando o evento 2 para testar as validações do objeto
-            var evento2 = new Evento(
-                            "",
-                            DateTime.Now,
-                            DateTime.Now,
-                            true,
-                            50,
-                            false,
-                            "");
+        var bus = new FakeBus();
 
-            Console.WriteLine(evento2.ToString());
-            Console.WriteLine(evento2.EhValido());
-            if (!evento2.ValidationResult.IsValid)
-            {
-                foreach (var erro in evento2.ValidationResult.Errors)
-                {
-                    Console.WriteLine(erro.ErrorMessage);
-                }
-            }
+        // Registro com sucesso
+        var cmd = new RegistrarEventoCommand("DevX", DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), true, 0, true, "Empresa");
+        Inicio(cmd);
+        bus.SendCommand(cmd);
+        Fim(cmd);
 
-            Console.ReadKey();
-        }
+        // Registro com erros
+        cmd = new RegistrarEventoCommand("", DateTime.Now.AddDays(2), DateTime.Now.AddDays(1), false, 0, false, "");
+        Inicio(cmd);
+        bus.SendCommand(cmd);
+        Fim(cmd);
+
+        // Atualizar Evento
+        var cmd2 = new AtualizarEventoCommand(Guid.NewGuid(), "DevX", "", "", DateTime.Now.AddDays(1), DateTime.Now.AddDays(2), false, 50, true, "Empresa");
+        Inicio(cmd2);
+        bus.SendCommand(cmd2);
+        Fim(cmd2);
+
+        // Excluir Evento
+        var cmd3 = new ExcluirEventoCommand(Guid.NewGuid());
+        Inicio(cmd3);
+        bus.SendCommand(cmd3);
+        Fim(cmd3);
+
+
+        Console.ReadKey();
     }
+
+    private static void Inicio(Message message)
+    {
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Inicio do Comando " + message.MessageType);
+    }
+
+    private static void Fim(Message message)
+    {
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Fim do Comando " + message.MessageType);
+        Console.WriteLine("");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine("**********************");
+        Console.WriteLine("");
+    }
+
 }

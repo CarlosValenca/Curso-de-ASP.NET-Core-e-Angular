@@ -5,13 +5,14 @@
 // O link abaixo fala sobre a compatibilidade do dotnet core ou standard
 // https://github.com/dotnet/standard/blob/master/docs/versions.md
 using Eventos.IO.Domain.Core.Models;
+using Eventos.IO.Domain.Organizadores;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Eventos.IO.Domain.Models
+namespace Eventos.IO.Domain.Eventos
 {
+    // O evento é a raiz de agregação de todas as outras entidades
     public class Evento : Entity<Evento>
     {
         public Evento(string nome,
@@ -30,6 +31,11 @@ namespace Eventos.IO.Domain.Models
             Valor = valor;
             Online = online;
             NomeEmpresa = nomeEmpresa;
+        }
+
+        private Evento()
+        {
+
         }
 
         public string Nome { get; private set; }
@@ -88,18 +94,18 @@ namespace Eventos.IO.Domain.Models
 
             if (Gratuito)
                 RuleFor(c => c.Valor)
-                    .ExclusiveBetween(0, 0).When(e => e.Gratuito)
+                    .Equal(0).When(e => e.Gratuito)
                     .WithMessage("O valor não deve ser diferente de 0 para um evento gratuito");
         }
 
         private void ValidarData()
         {
             RuleFor(c => c.DataInicio)
-                .GreaterThan(c => c.DataFim)
+                .LessThan(c => c.DataFim)
                 .WithMessage("A data de início deve ser maior que a data do final do evento");
 
             RuleFor(c => c.DataInicio)
-                .LessThan(DateTime.Now)
+                .GreaterThan(DateTime.Now)
                 .WithMessage("A data de início não deve ser menor que a data atual");
         }
 
@@ -109,6 +115,7 @@ namespace Eventos.IO.Domain.Models
                 RuleFor(c => c.Endereco)
                     .Null().When(c => Online)
                     .WithMessage("O evento não deve possuir um endereço se for online");
+
 
             if (!Online)
                 RuleFor(c => c.Endereco)
@@ -124,6 +131,32 @@ namespace Eventos.IO.Domain.Models
         }
 
         #endregion
+
+        public static class EventoFactory
+        {
+            public static Evento NovoEventoCompleto(Guid id, string nome, string descCurta, string descLonga, DateTime dataInicio, DateTime dataFim, bool gratuito, decimal valor, bool online, string nomeEmpresa, Guid? organizadorId)
+            {
+                var evento = new Evento()
+                {
+                    Id = id,
+                    Nome = nome,
+                    DescricaoCurta = descCurta,
+                    DescricaoLonga = descLonga,
+                    DataInicio = dataInicio,
+                    DataFim = dataFim,
+                    Gratuito = gratuito,
+                    Valor = valor,
+                    Online = online,
+                    NomeEmpresa = nomeEmpresa
+                };
+
+                if(organizadorId != null)
+                    evento.Organizador = new Organizador(organizadorId.Value);
+
+                return evento;
+
+            }
+        }
 
     }
 
