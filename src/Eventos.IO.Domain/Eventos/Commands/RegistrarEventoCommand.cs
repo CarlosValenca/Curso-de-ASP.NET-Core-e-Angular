@@ -6,6 +6,8 @@ namespace Eventos.IO.Domain.Eventos.Commands
     {
         public RegistrarEventoCommand(
                     string nome,
+                    string descricaoCurta,
+                    string descricaoLonga,
                     DateTime dataInicio,
                     DateTime dataFim,
                     bool gratuito,
@@ -17,6 +19,8 @@ namespace Eventos.IO.Domain.Eventos.Commands
                     IncluirEnderecoEventoCommand endereco)
         {
             Nome = nome;
+            DescricaoCurta = descricaoCurta;
+            DescricaoLonga = descricaoLonga;
             DataInicio = dataInicio;
             DataFim = dataFim;
             Gratuito = gratuito;

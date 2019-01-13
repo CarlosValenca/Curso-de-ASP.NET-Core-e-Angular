@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventos.IO.Domain.Core", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventos.IO.Infra.Data", "src\Eventos.IO.Infra.Data\Eventos.IO.Infra.Data.csproj", "{0EC00F47-681B-4FA2-A299-77C0C246BB68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventos.IO.Site", "src\Eventos.IO.Site\Eventos.IO.Site.csproj", "{D395B365-DCFA-4DF3-A9B3-2472B7F69F82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventos.IO.Site", "src\Eventos.IO.Site\Eventos.IO.Site.csproj", "{D395B365-DCFA-4DF3-A9B3-2472B7F69F82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventos.IO.Application", "src\Eventos.IO.Application\Eventos.IO.Application.csproj", "{45EBED1C-0781-4E05-92B2-0CA80C706CF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{D395B365-DCFA-4DF3-A9B3-2472B7F69F82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D395B365-DCFA-4DF3-A9B3-2472B7F69F82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D395B365-DCFA-4DF3-A9B3-2472B7F69F82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45EBED1C-0781-4E05-92B2-0CA80C706CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45EBED1C-0781-4E05-92B2-0CA80C706CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45EBED1C-0781-4E05-92B2-0CA80C706CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45EBED1C-0781-4E05-92B2-0CA80C706CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{D5B6093F-6D9B-418D-8DF3-52F270ED31FB} = {3FA8260E-C072-4295-A4C3-5F33B9782352}
 		{0EC00F47-681B-4FA2-A299-77C0C246BB68} = {2B93857B-D58C-4F5D-B8CF-ECF737DB7FBB}
 		{D395B365-DCFA-4DF3-A9B3-2472B7F69F82} = {3C12394A-56EB-4BAC-A2E5-B9A03849C2FB}
+		{45EBED1C-0781-4E05-92B2-0CA80C706CF4} = {34BFCF6C-A461-4FD5-AA01-AAA26F555839}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {660156F0-62E5-415D-A51A-3816A2A800E8}
