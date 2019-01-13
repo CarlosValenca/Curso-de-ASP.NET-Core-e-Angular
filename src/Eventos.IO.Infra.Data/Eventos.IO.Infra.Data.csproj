@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190112225534_Initial.cs" />
+  </ItemGroup>
+
+  <!-- 
+    * E possível incluir estas referências manualmente escrevendo elas aqui
+    * Design: para trabalhar com o designer da modelagem
+    * Tools: para trabalhar com migration, etc
+    * Se vc tiver um projeto espelho por exemplo pode fazer desta forma ao invés de instalar um por um
+    * Configuration: 
+    * FileExtensions: entender as extensões do meu arquivo
+    * Json: Entender o meu arquivo json
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Eventos.IO.Domain.Core\Eventos.IO.Domain.Core.csproj" />
+    <ProjectReference Include="..\Eventos.IO.Domain\Eventos.IO.Domain.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <!--
+      * Este item group foi criado pela propriedade Copy to Output Directory = Copy Always do appsettings
+      * Na prática jogará na pasta bin
+  -->
+
+</Project>
