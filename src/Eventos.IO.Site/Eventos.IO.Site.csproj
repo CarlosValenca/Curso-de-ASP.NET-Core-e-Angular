@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -13,15 +13,25 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
   </ItemGroup>
 
-
   <ItemGroup>
+    <ProjectReference Include="..\Eventos.IO.Application\Eventos.IO.Application.csproj" />
+    <ProjectReference Include="..\Eventos.IO.Infra.CrossCutting.Bus\Eventos.IO.Infra.CrossCutting.Bus.csproj" />
+    <ProjectReference Include="..\Eventos.IO.Infra.CrossCutting.IoC\Eventos.IO.Infra.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\Eventos.IO.Infra.Data\Eventos.IO.Infra.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild3-final" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0-msbuild3-final" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Update="appsettings.json">

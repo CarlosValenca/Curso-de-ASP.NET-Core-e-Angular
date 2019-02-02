@@ -36,13 +36,14 @@ namespace Eventos.IO.Application.ViewModels
         [Display(Name = "Início do Evento")]
         [Required(ErrorMessage = "A data é requerida")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+        // ssbcvp - voltar aqui, não é possível usar esta formatação, ver tb data fim
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
         public DateTime DataInicio { get; set; }
 
         [Display(Name = "Fim do Evento")]
         [Required(ErrorMessage = "A data é requerida")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
         public DateTime DataFim { get; set; }
 
         [Display(Name = "Será gratuito?")]

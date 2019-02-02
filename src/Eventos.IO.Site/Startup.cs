@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Eventos.IO.Site.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Eventos.IO.Infra.CrossCutting.Bus;
+using Eventos.IO.Infra.CrossCutting.IoC;
+using AutoMapper;
+using Eventos.IO.Application.AutoMapper;
 
 namespace Eventos.IO.Site
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -43,10 +43,16 @@ namespace Eventos.IO.Site
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAutoMapper();
+
+            // Add application services.
+            RegisterServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IHostingEnvironment env,
+                              IHttpContextAccessor acessor)
         {
             if (env.IsDevelopment())
             {
@@ -72,6 +78,14 @@ namespace Eventos.IO.Site
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            InMemoryBus.ContainerAcessor = () => acessor.HttpContext.RequestServices;
         }
+
+        private static void RegisterServices(IServiceCollection services)
+        {
+            NativeInjectorBootStrapper.RegisterServices(services);
+        }
+
     }
 }

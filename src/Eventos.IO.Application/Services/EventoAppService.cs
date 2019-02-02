@@ -47,6 +47,20 @@ namespace Eventos.IO.Application.Services
         public void Atualizar(EventoViewModel eventoViewModel)
         {
             // To Do: Validar se o organizador e dono do evento
+            /* ssbcvp - Esta versão do capítulo 15 está dando um problema de auto_mapper
+             *  Error mapping types.
+
+                Mapping types:
+                EventoViewModel -> AtualizarEventoCommand
+                Eventos.IO.Application.ViewModels.EventoViewModel -> Eventos.IO.Domain.Eventos.Commands.AtualizarEventoCommand
+
+                Type Map configuration:
+                EventoViewModel -> AtualizarEventoCommand
+                Eventos.IO.Application.ViewModels.EventoViewModel -> Eventos.IO.Domain.Eventos.Commands.AtualizarEventoCommand
+
+                Destination Member:
+                Endereco
+            */
 
             var atualizarEventoCommmand = _mapper.Map<AtualizarEventoCommand>(eventoViewModel);
             _bus.SendCommand(atualizarEventoCommmand);
