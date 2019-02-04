@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Eventos.IO.Application.ViewModels;
-using Eventos.IO.Site.Data;
 using Eventos.IO.Application.Interfaces;
+using Eventos.IO.Domain.Core.Notifications;
+using Eventos.IO.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Eventos.IO.Site.Controllers
 {
-    public class EventosController : Controller
+    public class EventosController : BaseController
     {
         private readonly IEventoAppService _eventoAppService;
 
-        public EventosController(IEventoAppService eventoAppService)
+        public EventosController(IEventoAppService eventoAppService,
+                                 IDomainNotificationHandler<DomainNotification> notifications,
+                                 IUser user) : base(notifications, user)
         {
             _eventoAppService = eventoAppService;
         }
@@ -45,23 +44,31 @@ namespace Eventos.IO.Site.Controllers
         }
 
         // GET: Eventos/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(EventoViewModel eventoViewModel)
         {
             if (!ModelState.IsValid) return View(eventoViewModel);
 
+            eventoViewModel.OrganizadorId = OrganizadorId;
             _eventoAppService.Registrar(eventoViewModel);
+
+            // O primeiro parâmetro determina o tipo de mensagem no toastr e o segundo parâmetro separado por ","
+            // determina a mensagem, ambos parâmetros serão separados pelo comando split
+            ViewBag.RetornoPost = OperacaoValida() ? "success,Evento registrado com sucesso!" : "error,Evento não registrado ! Verifique as mensagens";
 
             return View(eventoViewModel);
         }
 
         // GET: Eventos/Edit/5
+        [Authorize]
         public IActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -80,6 +87,7 @@ namespace Eventos.IO.Site.Controllers
         }
 
         // POST: Eventos/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(EventoViewModel eventoViewModel)
@@ -88,13 +96,14 @@ namespace Eventos.IO.Site.Controllers
 
             _eventoAppService.Atualizar(eventoViewModel);
 
-            // ToDo: Validar se a operação ocorreu com sucesso
+            ViewBag.RetornoPost = OperacaoValida() ? "success,Evento atualizado com sucesso!" : "error,Evento não pode ser atualizado ! Verifique as mensagens";
 
             return View(eventoViewModel);
 
         }
 
         // GET: Eventos/Delete/5
+        [Authorize]
         public IActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -113,6 +122,7 @@ namespace Eventos.IO.Site.Controllers
         }
 
         // POST: Eventos/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(Guid id)

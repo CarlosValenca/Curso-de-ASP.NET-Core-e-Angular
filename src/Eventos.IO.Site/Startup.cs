@@ -12,6 +12,8 @@ using Eventos.IO.Infra.CrossCutting.Bus;
 using Eventos.IO.Infra.CrossCutting.IoC;
 using AutoMapper;
 using Eventos.IO.Application.AutoMapper;
+using Eventos.IO.Domain.Interfaces;
+using Eventos.IO.Site.Areas.Identity.Pages;
 
 namespace Eventos.IO.Site
 {
@@ -43,7 +45,20 @@ namespace Eventos.IO.Site
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddAutoMapper();
+            
+            // Código incluido manualmente para funcionar o auto mapper
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<ViewModelToDomainMappingProfile>();
+            });
+
+            AutoMapperConfiguration.RegisterMappings();
+
+            // Add application services.
+            services.AddScoped<IUser, AspNetUser>();
 
             // Add application services.
             RegisterServices(services);

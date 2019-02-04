@@ -35,15 +35,13 @@ namespace Eventos.IO.Application.ViewModels
 
         [Display(Name = "Início do Evento")]
         [Required(ErrorMessage = "A data é requerida")]
-        [DataType(DataType.Date)]
-        // ssbcvp - voltar aqui, não é possível usar esta formatação, ver tb data fim
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+        //[DataType(DataType.Date)]
         public DateTime DataInicio { get; set; }
 
+        // Mantive o notation DataType.Date para mostrar uma forma diferente de formatar a data da usada no html através do asp-format...
         [Display(Name = "Fim do Evento")]
         [Required(ErrorMessage = "A data é requerida")]
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
         public DateTime DataFim { get; set; }
 
         [Display(Name = "Será gratuito?")]
@@ -64,7 +62,5 @@ namespace Eventos.IO.Application.ViewModels
         public CategoriaViewModel Categoria { get; set; }
         public Guid CategoriaId { get; set; }
         public Guid OrganizadorId { get; set; }
-
-
     }
 }

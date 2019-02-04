@@ -28,7 +28,8 @@ namespace Eventos.IO.Infra.CrossCutting.Bus
         {
             if (Container == null) return;
 
-            var obj = Container.GetService(message.MessageType.Equals("DomainNotification")
+            // Troquei o "DomainNotification" pelo nameof(DomainNotification) sem aspas duplas, sugestão do Patrick
+            var obj = Container.GetService(message.MessageType.Equals(nameof(DomainNotification))
                 ? typeof(IDomainNotificationHandler<T>)
                 : typeof(IHandler<T>));
 

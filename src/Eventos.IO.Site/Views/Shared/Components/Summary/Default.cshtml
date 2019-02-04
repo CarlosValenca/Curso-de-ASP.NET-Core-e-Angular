@@ -1,0 +1,11 @@
+﻿<!-- Lista os erros encontrados na parte superior da tela em vermelho que vem da camada de negócios -->
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <h3 id="msgRetorno">Opa! Alguma coisa não deu certo :(</h3>
+    <!-- summary = All = Exibirá todos os erros que for possível pegar -->
+    <!-- summary = ModelOnly = Exibirá somente os erros da Model, não mostrará por exemplo as validações de campo -->
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+</div>
+}

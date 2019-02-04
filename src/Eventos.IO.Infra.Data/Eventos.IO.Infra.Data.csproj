@@ -21,6 +21,7 @@
     * Json: Entender o meu arquivo json
   -->
   <ItemGroup>
+    <PackageReference Include="dapper" Version="1.50.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />

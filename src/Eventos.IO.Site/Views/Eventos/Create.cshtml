@@ -3,91 +3,146 @@
 @model Eventos.IO.Application.ViewModels.EventoViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Registrar Novo Evento";
 }
 
-<h1>Create</h1>
+<h2>@ViewData["Title"]</h2>
 
-<h4>EventoViewModel</h4>
+<!-- Aqui temos o arquivo de estilo para poder utilizar dentro do html dentro dos campos data -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+
+<h4>Preencha todos os dados corretamente</h4>
 <hr />
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+<form asp-action="Create">
+    <div class="form-horizontal">
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <vc:Summary />
 
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="Nome" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DescricaoCurta" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="DescricaoCurta" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
                 <input asp-for="DescricaoCurta" class="form-control" />
                 <span asp-validation-for="DescricaoCurta" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DescricaoLonga" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="DescricaoLonga" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
                 <textarea rows="5" asp-for="DescricaoLonga" class="form-control"></textarea>
                 <span asp-validation-for="DescricaoLonga" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Categoria" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="Categoria" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
                 @Html.Partial("_Categorias")
                 <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DataInicio" class="control-label"></label>
-                <input asp-for="DataInicio" class="form-control" />
+        <div class="form-group">
+            <label asp-for="DataInicio" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="DataInicio" class="form-control" type="text" />
                 <span asp-validation-for="DataInicio" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="DataFim" class="control-label"></label>
-                <input asp-for="DataFim" class="form-control" />
+        <div class="form-group">
+            <label asp-for="DataFim" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="DataFim" class="form-control" type="text" />
                 <span asp-validation-for="DataFim" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Gratuito" /> @Html.DisplayNameFor(model => model.Gratuito)
-                </label>
-            </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Gratuito" /> @Html.DisplayNameFor(model => model.Gratuito)
+            </label>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
+        <div class="form-group">
+            <label asp-for="Valor" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <input data-val-number="O valor está em formato inválido" data-val-required="O valor é requerido" asp-for="Valor" class="form-control" />
                 <span asp-validation-for="Valor" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Online" /> @Html.DisplayNameFor(model => model.Online)
-                </label>
-            </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="Online" /> @Html.DisplayNameFor(model => model.Online)
+            </label>
+        </div>
 
-            <div class="form-group">
-                <label asp-for="NomeEmpresa" class="control-label"></label>
+        <div class="form-group">
+            <label asp-for="NomeEmpresa" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
                 <input asp-for="NomeEmpresa" class="form-control" />
                 <span asp-validation-for="NomeEmpresa" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="submit" value="Registrar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-info">Voltar para a lista</a>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+<!-- Executa tudo que tem que ser feito apenas após o carregamento completo da _Layout page -->
+<!-- Temos o arquivo java script mais os arquivos para deixar o calendário em portugues br -->
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <!-- Aqui temos os scripts para validações do datepicker -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt.min.js"></script>
+
+    <script>
+        ValidacoesEvento();
+    </script>
+
+    @{
+        if (ViewBag.RetornoPost != null)
+        {
+            var notificacao = ViewBag.RetornoPost.ToString().Split(',');
+
+            <script>
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": true,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["@notificacao[0]"]("@notificacao[1]");
+            </script>
+        }
+    }
 }

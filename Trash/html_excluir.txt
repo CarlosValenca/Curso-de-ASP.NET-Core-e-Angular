@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Eventos.IO.Application.ViewModels.EventoViewModel>
+carlos
+@model IEnumerable<Eventos.IO.Application.ViewModels.EventoViewModel>
 
 @using System.Globalization;
 
 @{
-    ViewData["Title"] = "Lista dos Próximos Eventos";
+    ViewData["Title"] = "Lista dos Pr�ximos Eventos";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -26,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataInicio)
+                @Html.DisplayNameFor(model => model.DataInicio);
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DataFim)
@@ -48,8 +49,7 @@
                     @Html.DisplayFor(modelItem => item.Nome)
                 </td>
                 <td>
-                    <!-- Aqui estou deixando de propósito diferente a formatação de data início e fim para ter uma alternativa -->
-                    @item.DataInicio.ToString("d")
+                    @Html.DisplayFor(modelItem => item.DataInicio)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DataFim)
@@ -74,7 +74,7 @@
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-info-circle"></i>
                     </a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
                         <i class="fas fa-trash-alt"></i>
