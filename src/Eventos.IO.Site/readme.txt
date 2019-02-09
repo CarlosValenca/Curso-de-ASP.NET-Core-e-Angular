@@ -33,3 +33,5 @@ install-package System.Security.Claims
 
 Para aprender a incluir novos campos no identity:
 https://docs.microsoft.com/en-us/aspnet/core/security/authentication/add-user-data?view=aspnetcore-2.2&tabs=visual-studio
+Para aprender a configurar as rotas no identity:
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio

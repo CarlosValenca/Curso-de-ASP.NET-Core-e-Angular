@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Eventos.IO.Application.ViewModels;
 
-namespace Eventos.IO.Site.Data
+namespace Eventos.IO.Infra.CrossCutting.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    // Identity: Informado o ApplicationUser dentro do IdentityDbContext conforme auxiliado pelo Marmoré
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         // Usado para o EF
         public ApplicationDbContext()

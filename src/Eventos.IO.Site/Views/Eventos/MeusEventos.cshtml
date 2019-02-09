@@ -3,11 +3,20 @@
 @using System.Globalization;
 
 @{
-    ViewData["Title"] = "Lista dos Próximos Eventos";
+    ViewData["Title"] = "Meus Eventos";
 }
 
 <h2>@ViewData["Title"]</h2>
 
+<div class="row">
+    <div class="col-m-12">
+        <div class="pull-left">
+            <a asp-action="Create" class="btn btn-primary">
+                <span title="Novo Evento" class="fas fa-plus-circle"></span> Novo Evento
+            </a>
+        </div>
+    </div>
+</div>
 <br />
 
 <table class="table">
@@ -61,8 +70,14 @@
                     @Html.DisplayFor(modelItem => item.Online)
                 </td>
                 <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">
-                        <i class="fas fa-search"></i>Ver Detalhes
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>
             </tr>

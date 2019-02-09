@@ -6,11 +6,6 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Migrations\20190112225417_Initial.cs" />
-    <Compile Remove="Migrations\20190112225417_Initial.Designer.cs" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
@@ -23,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Eventos.IO.Application\Eventos.IO.Application.csproj" />
     <ProjectReference Include="..\Eventos.IO.Infra.CrossCutting.Bus\Eventos.IO.Infra.CrossCutting.Bus.csproj" />
+    <ProjectReference Include="..\Eventos.IO.Infra.CrossCutting.Identity\Eventos.IO.Infra.CrossCutting.Identity.csproj" />
     <ProjectReference Include="..\Eventos.IO.Infra.CrossCutting.IoC\Eventos.IO.Infra.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\Eventos.IO.Infra.Data\Eventos.IO.Infra.Data.csproj" />
   </ItemGroup>

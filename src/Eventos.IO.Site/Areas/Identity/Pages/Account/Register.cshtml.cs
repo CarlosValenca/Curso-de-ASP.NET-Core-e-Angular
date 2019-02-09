@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Eventos.IO.Application.Interfaces;
 using Eventos.IO.Application.ViewModels;
 using Eventos.IO.Domain.Core.Notifications;
 using Eventos.IO.Domain.Interfaces;
-using Eventos.IO.Site.Areas.Identity.Data;
+using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -19,8 +18,8 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         // Identity: Video 16 Eduardo Pires
@@ -37,8 +36,8 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
 
         // Identity: Video 16 Eduardo Pires
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             // Identity: Video 16 Eduardo Pires
@@ -64,36 +63,6 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        // Identity: Video 16 Eduardo Pires- troquei InputModel por RegisterViewModel
-        public class RegisterViewModel
-        {
-            // Identity: Coloque aqui os novos campos e suas validações
-            [Required(ErrorMessage = "O nome é requerido")]
-            [DataType(DataType.Text)]
-            [Display(Name = "Nome Completo")]
-            public string Nome { get; set; }
-
-            [Required(ErrorMessage = "O CPF é requerido")]
-            [StringLength(11)]
-            public string CPF { get; set; }
-
-            [Required(ErrorMessage = "O e-email é requerido")]
-            [EmailAddress(ErrorMessage = "E-mail em formato inválido")]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirme a senha")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-        }
-
         public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -110,7 +79,6 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-
                     // Identity: Video 16 Eduardo Pires
                     // Atrelei o guid do usuário do Identity ao organizador
                     // Este ponto é responsável por incluir o organizador no banco com o mesmo Id criado pelo Identity
@@ -135,16 +103,18 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    // Identity: Correção da rota do identity
                     var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
+                        "/Identity/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
                     // Identity: Video 16 Eduardo Pires -Troquei input por model - 03022019
+                    /* ssbcvp - Envio de email ainda não está funcionando
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
+                    */
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

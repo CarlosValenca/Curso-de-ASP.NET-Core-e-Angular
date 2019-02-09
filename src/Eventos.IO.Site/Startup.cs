@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Eventos.IO.Site.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Eventos.IO.Infra.CrossCutting.Bus;
@@ -13,7 +11,10 @@ using Eventos.IO.Infra.CrossCutting.IoC;
 using AutoMapper;
 using Eventos.IO.Application.AutoMapper;
 using Eventos.IO.Domain.Interfaces;
-using Eventos.IO.Site.Areas.Identity.Pages;
+using Eventos.IO.Infra.CrossCutting.Data;
+using Eventos.IO.Infra.CrossCutting.Identity.Models;
+using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Eventos.IO.Site
 {
@@ -40,9 +41,24 @@ namespace Eventos.IO.Site
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Configuração de rotas para achar as páginas do Identity, conforme auxílio do Patrick
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Define quantos por quantos minutos reconecta com o último usuário logado
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.Cookie.HttpOnly = true;
+                // Aqui de fato faz o login automático usando o cookie (considerando o tempo do ExpireTimeSpan)
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

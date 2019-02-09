@@ -6,14 +6,15 @@
     ViewData["Title"] = "Alterar Evento";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h2>@ViewData["Title"]</h2>
 
 <!-- Aqui temos o arquivo de estilo para poder utilizar dentro do html dentro dos campos data -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-
+        <h4>Lembre-se que muitas pessoas já podem ter visto este evento antes de mudar datas e etc.</h4>
+        <hr />
         <vc:Summary />
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="OrganizadorId" />
@@ -43,10 +44,10 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="CategoriaId" class="col-md-4 control-label"></label>
+            <label asp-for="Categoria" class="col-md-4 control-label"></label>
             <div class="col-md-4">
                 @Html.Partial("_Categorias")
-                <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
         </div>
 
@@ -96,11 +97,27 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Salvar" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-info">Voltar para a lista</a>
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btSubmit" type="submit" value="Atualizar Evento" class="btn btn-success" />
+                <a asp-action="MeusEventos" class="btn btn-info">Voltar para a lista</a>
+            </div>
         </div>
     </div>
 </form>
+
+<div id="EnderecoForm">
+    <div id="EnderecoTarget">
+        @Html.Partial("_DetalhesEndereco")
+    </div>
+</div>
+
+<div id="myModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="myModalContent"></div>
+        </div>
+    </div>
+</div>
 
 <!-- Executa tudo que tem que ser feito apenas após o carregamento completo da _Layout page -->
 <!-- Temos o arquivo java script mais os arquivos para deixar o calendário em portugues br -->
@@ -115,6 +132,7 @@
 
     <script>
         ValidacoesEvento();
+        AjaxModal();
     </script>
 
     @{
@@ -122,26 +140,31 @@
         {
             var notificacao = ViewBag.RetornoPost.ToString().Split(',');
 
-            <script>
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": true,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": true,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
-                toastr["@notificacao[0]"]("@notificacao[1]");
-            </script>
+            if (notificacao[0] == "success")
+            {
+                <script>
+                    // Colocado aqui e não no site.js para somente voltar a meus eventos em caso de sucesso
+                    // ssbcvp - como tornar dinamico o location ? voltar aqui
+                    toastr.options.onHidden = function () {
+                        window.location = "https://localhost:44375/eventos/meuseventos"
+                    };
+
+                    toastr.options.onclick = function () {
+                        window.location = "https://localhost:44375/eventos/meuseventos"
+                    };
+
+                    toastr.options.onCloseClick = function () {
+                        window.location = "https://localhost:44375/eventos/meuseventos"
+                    };
+
+                    $("#btSubmit").prop("disabled", true);
+
+                </script>
+                
+                <script>
+                    toastr["@notificacao[0]"]("@notificacao[1]");
+                </script>
+            }
         }
     }
 }

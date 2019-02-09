@@ -1,0 +1,16 @@
+    /*
+     * Deixar neste ponto o callback para voltar para os meus eventos não adianta pois quando o toaster mostra ua
+     * mensagem de erro também acaba voltando para os meus eventos quando o certo é deixar o usuário arrumar
+     * o problema
+    toastr.options.onHidden = function () {
+        window.location = "https://localhost:44375/eventos/meuseventos"
+    };
+
+    toastr.options.onclick = function () {
+        window.location = "https://localhost:44375/eventos/meuseventos"
+    };
+
+    toastr.options.onCloseClick = function () {
+        window.location = "https://localhost:44375/eventos/meuseventos"
+    };
+    */

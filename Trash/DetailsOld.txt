@@ -1,0 +1,89 @@
+@using Eventos.IO.Domain.Interfaces
+@inject IUser user
+@model Eventos.IO.Application.ViewModels.EventoViewModel
+
+@{
+    ViewData["Title"] = "Detalhes do Evento";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DescricaoCurta)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DescricaoCurta)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DescricaoLonga)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DescricaoLonga)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataInicio)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataInicio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DataFim)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DataFim)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Gratuito)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Gratuito)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Online)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Online)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NomeEmpresa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NomeEmpresa)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Categoria)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Categoria.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model.Id">Alterar</a>
+    @{
+        if (user.IsAuthenticated())
+        {
+            <a asp-action="MeusEventos" class="btn btn-info">Voltar para a lista</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-info">Voltar para a lista</a>
+        }
+    }
+
+</div>

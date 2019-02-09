@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 
-namespace Eventos.IO.Site.Areas.Identity.Pages
+namespace Eventos.IO.Infra.CrossCutting.Identity.Pages
 {
     public static class ClaimsPrincipalExtensions
     {
@@ -16,5 +16,6 @@ namespace Eventos.IO.Site.Areas.Identity.Pages
             var claim = principal.FindFirst(ClaimTypes.NameIdentifier);
             return claim?.Value;
         }
+
     }
 }
