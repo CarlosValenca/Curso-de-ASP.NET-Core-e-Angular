@@ -146,15 +146,15 @@
                     // Colocado aqui e não no site.js para somente voltar a meus eventos em caso de sucesso
                     // ssbcvp - como tornar dinamico o location ? voltar aqui
                     toastr.options.onHidden = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     toastr.options.onclick = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     toastr.options.onCloseClick = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     $("#btSubmit").prop("disabled", true);

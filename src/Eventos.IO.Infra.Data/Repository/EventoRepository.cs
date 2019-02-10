@@ -57,6 +57,8 @@ namespace Eventos.IO.Infra.Data.Repository
                         "AND E.ORGANIZADORID = @oid " +
                         "ORDER BY E.DATAFIM DESC";
 
+            // throw new Exception("Erro bem complicado !");
+
             return Db.Database.GetDbConnection().Query<Evento>(sql, new { oid = organizadorId });
 
             // Substituído o Entity Framework pelo Dapper

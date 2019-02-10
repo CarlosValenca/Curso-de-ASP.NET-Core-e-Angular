@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Eventos.IO.Application.Interfaces;
@@ -76,9 +77,14 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 
+                // Exatamente aqui o usuário será criado
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
                 if (result.Succeeded)
                 {
+                    await _userManager.AddClaimAsync(user, new Claim("Eventos", "Ler"));
+                    await _userManager.AddClaimAsync(user, new Claim("Eventos", "Gravar"));
+                    
                     // Identity: Video 16 Eduardo Pires
                     // Atrelei o guid do usuário do Identity ao organizador
                     // Este ponto é responsável por incluir o organizador no banco com o mesmo Id criado pelo Identity
@@ -111,7 +117,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     // Identity: Video 16 Eduardo Pires -Troquei input por model - 03022019
-                    /* ssbcvp - Envio de email ainda não está funcionando
+                    /* ssbcvp - voltar aqui - Envio de email ainda não está funcionando
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     */

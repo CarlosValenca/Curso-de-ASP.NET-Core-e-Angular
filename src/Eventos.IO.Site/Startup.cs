@@ -15,6 +15,10 @@ using Eventos.IO.Infra.CrossCutting.Data;
 using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Eventos.IO.Infra.CrossCutting.AspNetFilters;
+using Microsoft.Extensions.Logging;
+using Elmah.Io.Extensions.Logging;
+using Elmah.Io.AspNetCore;
 
 namespace Eventos.IO.Site
 {
@@ -46,6 +50,14 @@ namespace Eventos.IO.Site
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PodeLerEventos", policy => policy.RequireClaim("Eventos", "Ler"));
+                options.AddPolicy("PodeGravar", policy => policy.RequireClaim("Eventos", "Gravar"));
+            });
+
+            services.AddLogging();
+
             // Configuração de rotas para achar as páginas do Identity, conforme auxílio do Patrick
             services.ConfigureApplicationCookie(options =>
             {
@@ -61,6 +73,15 @@ namespace Eventos.IO.Site
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            /* ssbcvp - desliguei os filtros do Elmah
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ServiceFilterAttribute(typeof(GlobalExceptionHandlingFilter)));
+                options.Filters.Add(new ServiceFilterAttribute(typeof(GlobalActionLoggerr)));
+            })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            */
 
             services.AddAutoMapper();
             
@@ -83,18 +104,28 @@ namespace Eventos.IO.Site
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
                               IHostingEnvironment env,
-                              IHttpContextAccessor acessor)
+                              IHttpContextAccessor acessor,
+                              ILoggerFactory loggerFactory)
         {
+            // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            // loggerFactory.AddDebug();
+
+            // ssbcvp - Desabilitei o Elmah por questões de performance, para testar é só descomentar as linhas abaixo
+            // loggerFactory.AddElmahIo("ccde64921fbd4ef69bd01c1a097251af", new Guid("809c3d10-450a-4395-bd4a-7fa23aaae94f"));
+            // app.UseElmahIo("ccde64921fbd4ef69bd01c1a097251af", new Guid("809c3d10-450a-4395-bd4a-7fa23aaae94f"));
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                // ssbcvp - Desabilitei os comandos abaixo para fazer igual a produção
+                // app.UseDeveloperExceptionPage();
+                // app.UseDatabaseErrorPage();
+                app.UseExceptionHandler("/erro-de-aplicacao");
+                app.UseStatusCodePagesWithReExecute("/erro-de-aplicacao/{0}");
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseExceptionHandler("/erro-de-aplicacao");
+                app.UseStatusCodePagesWithReExecute("/erro-de-aplicacao/{0}");
             }
 
             app.UseHttpsRedirection();

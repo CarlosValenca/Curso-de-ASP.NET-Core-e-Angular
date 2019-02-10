@@ -37,7 +37,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
             }
             else
             {
-                return Page();
+                return LocalRedirect(Url.Content("~/"));
             }
         }
     }

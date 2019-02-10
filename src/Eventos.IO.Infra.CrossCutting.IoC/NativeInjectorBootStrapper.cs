@@ -12,7 +12,7 @@ using Eventos.IO.Domain.Interfaces;
 using Eventos.IO.Domain.Organizadores.Commands;
 using Eventos.IO.Domain.Organizadores.Events;
 using Eventos.IO.Domain.Organizadores.Repository;
-
+using Eventos.IO.Infra.CrossCutting.AspNetFilters;
 using Eventos.IO.Infra.CrossCutting.Bus;
 using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using Eventos.IO.Infra.CrossCutting.Identity.Services;
@@ -22,6 +22,7 @@ using Eventos.IO.Infra.Data.UoW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Eventos.IO.Infra.CrossCutting.IoC
 {
@@ -71,6 +72,11 @@ namespace Eventos.IO.Infra.CrossCutting.IoC
             services.AddTransient<ISmsSender, MessageServices>();
             services.AddScoped<IUser, AspNetUser>();
 
+            // Infra - Filtros
+            services.AddScoped<ILogger<GlobalExceptionHandlingFilter>, Logger<GlobalExceptionHandlingFilter>>();
+            services.AddScoped<ILogger<GlobalActionLoggerr>, Logger<GlobalActionLoggerr>>();
+            services.AddScoped<GlobalExceptionHandlingFilter>();
+            services.AddScoped<GlobalActionLoggerr>();
         }
     }
 }

@@ -160,7 +160,7 @@
         <div class="form-group">
             <div class="col-md-4">
                 <input id="btSubmit" type="submit" value="Registrar" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-info">Voltar para a lista</a>
+                <a asp-action="MeusEventos" class="btn btn-info">Voltar para a lista</a>
             </div>
         </div>
     </div>
@@ -188,19 +188,37 @@
 
             if (notificacao[0] == "success")
             {
+
+                /* ssbcvp - voltar aqui
+                 * Como identificar o ambiente de produção ou desenvolvimento
+                 * 
+                var link;
+
+                if (Ambiente = 'Development')
+                {
+                    link = "https://localhost:44375/eventos/meuseventos";
+                }
+                else
+                {
+                    link = "https://localhost:5001/eventos/meuseventos";
+
+                }
+                */
+
+
                 <script>
                     // Colocado aqui e não no site.js para somente voltar a meus eventos em caso de sucesso
-                    // ssbcvp - como tornar dinamico o location ? voltar aqui
+                    // ssbcvp - voltar aqui - como tornar dinamico o location ?
                     toastr.options.onHidden = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     toastr.options.onclick = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     toastr.options.onCloseClick = function () {
-                        window.location = "https://localhost:44375/eventos/meuseventos"
+                        window.location = "https://localhost:44375/meus-eventos"
                     };
 
                     $("#btSubmit").prop("disabled", true);

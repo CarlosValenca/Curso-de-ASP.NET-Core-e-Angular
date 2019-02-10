@@ -35,3 +35,19 @@ Para aprender a incluir novos campos no identity:
 https://docs.microsoft.com/en-us/aspnet/core/security/authentication/add-user-data?view=aspnetcore-2.2&tabs=visual-studio
 Para aprender a configurar as rotas no identity:
 https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio
+
+Instalando o Elmah em 1 - Presentation\Eventos.IO.Site
+Install-Package Elmah.Io.AspNetCore
+Install-Package Elmah.Io.Extensions.Logging
+
+Instalando o Elmah em 5 - Infra\5.2 - CrossCutting\Eventos.Io.Infra.CrossCutting.AspNetFilters para auditoria
+install-package elmah.io.client
+install-package autorest (precisei incluir manualmente no csproj pelo <PackageReference Include="autorest" Version="0.17.3" />)
+install-package Microsoft.Rest.ClientRuntime
+
+Instalar em 5 - Infra\5.2 - CrossCutting\Eventos.Io.Infra.CrossCutting.AspNetFilters
+install-package microsoft.aspnetcore.http.abstractions
+install-package microsoft.aspnetcore.http.extensions
+
+Ex. de pesquisas no Elmah:
+method:POST AND user:organizador02@me.com
