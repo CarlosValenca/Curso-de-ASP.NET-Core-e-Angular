@@ -39,6 +39,7 @@ https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?vi
 Instalando o Elmah em 1 - Presentation\Eventos.IO.Site
 Install-Package Elmah.Io.AspNetCore
 Install-Package Elmah.Io.Extensions.Logging
+E necessário também injetar o LoggerFactore no método Configure para funcionar
 
 Instalando o Elmah em 5 - Infra\5.2 - CrossCutting\Eventos.Io.Infra.CrossCutting.AspNetFilters para auditoria
 install-package elmah.io.client
@@ -51,3 +52,16 @@ install-package microsoft.aspnetcore.http.extensions
 
 Ex. de pesquisas no Elmah:
 method:POST AND user:organizador02@me.com
+
+Instalar o Automapper em 2 - Services\Eventos.IO.Services.Api
+install-package automapper.Extensions.Microsoft.DependencyInjection
+
+Instalar o pacote abaixo em 2 - Services\Eventos.IO.Services.Api:
+install-package Microsoft.AspNetCore.Mvc.Formatters.Xml
+
+Para o Swagger funcionar instalar em 2 - Services\Eventos.IO.Services.Api:
+install-package Swashbuckle.AspNetCore
+
+Para funcionar o Token nas Apis, é necessário instalar os pacotes abaixo em 5 - Infra Eventos.IO.Infra.CrossCutting.Identity
+e também no meu projeto 02 - Services
+install-package Microsoft.AspNetCore.Authentication.JwtBearer

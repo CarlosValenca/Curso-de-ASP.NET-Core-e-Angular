@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Eventos.IO.Infra.CrossCutting.Identity.Models
+namespace Eventos.IO.Infra.CrossCutting.Identity.Models.AccountViewModels
 {
     public class RegisterViewModel
 {

@@ -15,7 +15,6 @@ using Eventos.IO.Infra.CrossCutting.Data;
 using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Eventos.IO.Infra.CrossCutting.AspNetFilters;
 using Microsoft.Extensions.Logging;
 using Elmah.Io.Extensions.Logging;
 using Elmah.Io.AspNetCore;

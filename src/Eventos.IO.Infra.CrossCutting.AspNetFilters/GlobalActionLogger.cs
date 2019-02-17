@@ -38,6 +38,7 @@ namespace Eventos.IO.Infra.CrossCutting.AspNetFilters
                     Hostname = context.HttpContext.Request.Host.ToString(),
                     AreaAccessed = context.HttpContext.Request.GetDisplayUrl(),
                     Action = context.ActionDescriptor.DisplayName,
+                    Url = context.HttpContext.Request.GetDisplayUrl(),
                     TimeStamp = DateTime.Now
                 };
 
