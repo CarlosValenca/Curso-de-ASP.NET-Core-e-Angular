@@ -65,6 +65,28 @@ namespace Eventos.IO.Infra.Data.Repository
             // return Db.Eventos.Where(e => e.OrganizadorId == organizadorId);
         }
 
+        public Evento ObterMeuEventoPorId(Guid id, Guid organizadorId)
+        {
+            var sql = @"SELECT * FROM EVENTOS E " +
+                      "LEFT JOIN Enderecos EN " +
+                      "ON E.Id = EN.EventoId " +
+                      "WHERE E.EXCLUIDO = 0 " +
+                      "AND E.ORGANIZADORID = @oid " +
+                      "AND E.ID = @eid";
+
+            var evento = Db.Database.GetDbConnection().Query<Evento, Endereco, Evento>(sql,
+                (e, en) =>
+                {
+                    if (en != null)
+                        e.AtribuirEndereco(en);
+
+                    return e;
+                },
+                new { oid = organizadorId, eid = id });
+
+            return evento.FirstOrDefault();
+        }
+
         public IEnumerable<Categoria> ObterCategorias()
         {
             var sql = @"SELECT * FROM Categorias";

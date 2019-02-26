@@ -21,6 +21,7 @@ using Microsoft.Extensions.Options;
 namespace Eventos.IO.Services.Api.Controllers
 {
     // Esta Api serve para a criação autenticaçao e token do usuário
+    [ApiController]
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -73,7 +74,7 @@ namespace Eventos.IO.Services.Api.Controllers
             if (!ModelState.IsValid) return Response(model);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Senha);
 
             if (result.Succeeded)
             {
@@ -93,7 +94,7 @@ namespace Eventos.IO.Services.Api.Controllers
 
                 // O número 1 sou eu quem defino, posso definir números diferentes para mensagens diferentes
                 _logger.LogInformation(1, "Usuário criado com sucesso!");
-                var response = await GerarTokenUsuario(new LoginViewModel { Email = model.Email, Password = model.Password });
+                var response = await GerarTokenUsuario(new LoginViewModel { Email = model.Email, Senha = model.Senha });
                 return Response(response);
             }
 
@@ -115,7 +116,7 @@ namespace Eventos.IO.Services.Api.Controllers
             // Estou fazendo um login baseado no usuário e senha, o terceiro parametro false determina que não será
             // guardado cookie com a informação do usuário e senha e o último parâmetro determina se o usuário
             // ficará travado após X tentativas inválidas
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Senha, false, true);
 
             if(result.Succeeded)
             {

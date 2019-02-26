@@ -80,6 +80,11 @@ namespace Eventos.IO.Domain.Eventos
             Excluido = true;
         }
 
+        public void TornarPresencial()
+        {
+            // Alguma validacao de negocio?
+            Online = false;
+        }
 
         // Evitamos ao máximo levantar excessões, por isto trabalhamos tudo em memoria, pois é super rápido assim
         public override bool EhValido()

@@ -78,7 +78,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 
                 // Exatamente aqui o usuário será criado
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, Input.Senha);
 
                 if (result.Succeeded)
                 {

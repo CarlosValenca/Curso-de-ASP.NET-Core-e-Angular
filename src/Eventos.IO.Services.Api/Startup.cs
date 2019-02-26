@@ -42,9 +42,19 @@ namespace Eventos.IO.Services.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // ssbcvp - instrução dada pelo Rafael da Scania
+            services.AddCors();
+
+            /*
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("https://localhost:44375,https://localhost:4200"));
+            });
+            */
+
             services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
 
             // Token(core 2.2)
             var tokenConfigurations = new TokenDescriptor();
@@ -135,6 +145,17 @@ namespace Eventos.IO.Services.Api
                               IHttpContextAccessor acessor,
                               ILoggerFactory loggerFactory)
         {
+
+            // Só colocando este código foi possível habilitar a comunicação entre o Angular e os serviços Asp Net
+            app.Use(async (ctx, next) =>
+            {
+                await next();
+                if (ctx.Response.StatusCode == 204)
+                {
+                    ctx.Response.ContentLength = 0;
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

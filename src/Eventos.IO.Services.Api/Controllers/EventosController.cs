@@ -52,6 +52,23 @@ namespace Eventos.IO.Services.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "PodeLerEventos")]
+        [Route("eventos/meus-eventos")]
+        public IEnumerable<EventoViewModel> ObterMeusEventos()
+        {
+            return _mapper.Map<IEnumerable<EventoViewModel>>(_eventoRepository.ObterEventoPorOrganizador(OrganizadorId));
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "PodeLerEventos")]
+        [Route("eventos/meus-eventos/{id:guid}")]
+        public IActionResult ObterMeuEventoPorId(Guid id)
+        {
+            var evento = _mapper.Map<EventoViewModel>(_eventoRepository.ObterMeuEventoPorId(id, OrganizadorId));
+            return evento == null ? StatusCode(404) : Response(evento);
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         [Route("eventos/categorias")]
         public IEnumerable<CategoriaViewModel> ObterCategorias()
@@ -100,6 +117,47 @@ namespace Eventos.IO.Services.Api.Controllers
         {
             _eventoAppService.Excluir(id);
             return Response();
+        }
+
+
+        [HttpPost]
+        [Route("endereco")]
+        [Authorize(Policy = "PodeGravar")]
+        public IActionResult Post([FromBody]EnderecoViewModel enderecoViewModel)
+        {
+            if (!ModelStateValida())
+            {
+                return Response();
+            }
+
+            var eventoCommand = _mapper.Map<IncluirEnderecoEventoCommand>(enderecoViewModel);
+
+            _bus.SendCommand(eventoCommand);
+            return Response(eventoCommand);
+        }
+
+        [HttpPut]
+        [Route("endereco")]
+        [Authorize(Policy = "PodeGravar")]
+        public IActionResult Put([FromBody]EnderecoViewModel enderecoViewModel)
+        {
+            if (!ModelStateValida())
+            {
+                return Response();
+            }
+
+            var eventoCommand = _mapper.Map<AtualizarEnderecoEventoCommand>(enderecoViewModel);
+
+            _bus.SendCommand(eventoCommand);
+            return Response(eventoCommand);
+        }
+
+        private bool ModelStateValida()
+        {
+            if (ModelState.IsValid) return true;
+
+            NotificarErroModelInvalida();
+            return false;
         }
 
     }

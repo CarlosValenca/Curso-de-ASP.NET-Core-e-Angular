@@ -141,6 +141,11 @@ namespace Eventos.IO.Domain.Eventos.Commands
                 NotificarValidacoesErro(endereco.ValidationResult);
                 return;
             }
+
+            var evento = _eventoRepository.ObterPorId(message.EventoId.Value);
+            evento.TornarPresencial();
+
+            _eventoRepository.Atualizar(evento);
             _eventoRepository.AdicionarEndereco(endereco);
 
             if (Commit())

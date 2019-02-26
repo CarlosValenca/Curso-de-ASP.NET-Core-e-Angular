@@ -10,7 +10,7 @@ namespace Eventos.IO.Infra.CrossCutting.Identity.Models.AccountViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Senha { get; set; }
 
     }
 }

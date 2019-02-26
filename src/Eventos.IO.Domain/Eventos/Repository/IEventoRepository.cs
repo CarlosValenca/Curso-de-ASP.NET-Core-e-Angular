@@ -11,5 +11,6 @@ namespace Eventos.IO.Domain.Eventos.Repository
         void AdicionarEndereco(Endereco endereco);
         void AtualizarEndereco(Endereco endereco);
         IEnumerable<Categoria> ObterCategorias();
+        Evento ObterMeuEventoPorId(Guid id, Guid organizadorId);
     }
 }
