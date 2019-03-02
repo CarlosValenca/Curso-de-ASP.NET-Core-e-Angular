@@ -1,5 +1,4 @@
-﻿using Eventos.IO.Domain.Core.Commands;
-using Eventos.IO.Domain.Interfaces;
+﻿using Eventos.IO.Domain.Interfaces;
 using Eventos.IO.Infra.Data.Context;
 
 namespace Eventos.IO.Infra.Data.UoW
@@ -13,10 +12,9 @@ namespace Eventos.IO.Infra.Data.UoW
             _context = context;
         }
 
-        public CommandResponse Commit()
+        public bool Commit()
         {
-            var rowsAffected = _context.SaveChanges();
-            return new CommandResponse(rowsAffected > 0);
+            return _context.SaveChanges() > 0;
         }
 
         public void Dispose()

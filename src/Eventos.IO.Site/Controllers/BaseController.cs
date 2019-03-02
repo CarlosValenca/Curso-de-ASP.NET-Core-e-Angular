@@ -1,5 +1,6 @@
 ﻿using Eventos.IO.Domain.Core.Notifications;
 using Eventos.IO.Domain.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -7,15 +8,15 @@ namespace Eventos.IO.Site.Controllers
 {
     public class BaseController : Controller
     {
-        private readonly IDomainNotificationHandler<DomainNotification> _notifications;
+        private readonly DomainNotificationHandler _notifications;
         private readonly IUser _user;
 
         public Guid OrganizadorId { get; set; }
 
-        public BaseController(IDomainNotificationHandler<DomainNotification> notifications,
+        public BaseController(INotificationHandler<DomainNotification> notifications,
                               IUser user)
         {
-            _notifications = notifications;
+            _notifications = (DomainNotificationHandler)notifications;
             _user = user;
 
             if (_user.IsAuthenticated())

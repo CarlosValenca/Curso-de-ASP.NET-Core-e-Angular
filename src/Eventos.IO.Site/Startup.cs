@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Eventos.IO.Infra.CrossCutting.Bus;
 using Eventos.IO.Infra.CrossCutting.IoC;
 using AutoMapper;
 using Eventos.IO.Application.AutoMapper;
@@ -16,8 +15,7 @@ using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
-using Elmah.Io.Extensions.Logging;
-using Elmah.Io.AspNetCore;
+using MediatR;
 
 namespace Eventos.IO.Site
 {
@@ -34,6 +32,7 @@ namespace Eventos.IO.Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -96,6 +95,8 @@ namespace Eventos.IO.Site
             // Add application services.
             services.AddScoped<IUser, AspNetUser>();
 
+            services.AddMediatR(typeof(Startup));
+
             // Add application services.
             RegisterServices(services);
         }
@@ -140,7 +141,6 @@ namespace Eventos.IO.Site
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            InMemoryBus.ContainerAcessor = () => acessor.HttpContext.RequestServices;
         }
 
         private static void RegisterServices(IServiceCollection services)

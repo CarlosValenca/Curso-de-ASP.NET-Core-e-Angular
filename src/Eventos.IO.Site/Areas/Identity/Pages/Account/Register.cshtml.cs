@@ -7,6 +7,7 @@ using Eventos.IO.Domain.Core.Notifications;
 using Eventos.IO.Domain.Interfaces;
 using Eventos.IO.Infra.CrossCutting.Identity.Models;
 using Eventos.IO.Infra.CrossCutting.Identity.Models.AccountViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -24,7 +25,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         // Identity: Video 16 Eduardo Pires
-        private readonly IDomainNotificationHandler<DomainNotification> _notifications;
+        private readonly DomainNotificationHandler _notifications;
         private readonly IOrganizadorAppService _organizadorAppService;
         private readonly IUser _user;
 
@@ -42,7 +43,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             // Identity: Video 16 Eduardo Pires
-            IDomainNotificationHandler<DomainNotification> notifications,
+            INotificationHandler<DomainNotification> notifications,
             IOrganizadorAppService organizadorAppService,
             IUser user) //  : base(notifications) -- Identity: Não estamos mandando as notificações para BaseControler
         {
@@ -51,7 +52,7 @@ namespace Eventos.IO.Site.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             // Identity: Video 16 Eduardo Pires - (não consegui passar notifications como : base(notifications)
-            _notifications = notifications;
+            _notifications = (DomainNotificationHandler)notifications;
             _organizadorAppService = organizadorAppService;
             _user = user;
         }

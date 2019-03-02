@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Eventos.IO.Application.AutoMapper;
-using Eventos.IO.Infra.CrossCutting.Bus;
 using Eventos.IO.Infra.CrossCutting.Data;
 using Eventos.IO.Infra.CrossCutting.Identity.Authorization;
 using Eventos.IO.Infra.CrossCutting.Identity.Models;
@@ -26,6 +25,7 @@ using Elmah.Io.Extensions.Logging;
 using Microsoft.Extensions.Logging;
 using Eventos.IO.Infra.CrossCutting.AspNetFilters;
 using Microsoft.AspNetCore.Http.Extensions;
+using MediatR;
 
 namespace Eventos.IO.Services.Api
 {
@@ -135,6 +135,8 @@ namespace Eventos.IO.Services.Api
                 });
             });
 
+            services.AddMediatR(typeof(Startup));
+
             // Registrar todos os DI (Dependency Injections)
             RegisterServices(services);
         }
@@ -213,7 +215,6 @@ namespace Eventos.IO.Services.Api
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "Eventos.IO API V1.0");
             });
 
-            InMemoryBus.ContainerAcessor = () => acessor.HttpContext.RequestServices;
         }
 
         private static void RegisterServices(IServiceCollection services)

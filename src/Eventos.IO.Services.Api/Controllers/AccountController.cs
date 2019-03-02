@@ -15,7 +15,8 @@ using Eventos.IO.Domain.Organizadores.Repository;
 using Eventos.IO.Infra.CrossCutting.Identity.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using Eventos.IO.Domain.Core.Bus;
+using MediatR;
+
 using Microsoft.Extensions.Options;
 
 namespace Eventos.IO.Services.Api.Controllers
@@ -27,8 +28,8 @@ namespace Eventos.IO.Services.Api.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
-        private readonly IBus _bus;
         private readonly IOrganizadorRepository _organizadorRepository;
+        private readonly IMediatorHandler _mediator;
 
         private readonly TokenDescriptor _tokenDescriptor;
 
@@ -38,14 +39,15 @@ namespace Eventos.IO.Services.Api.Controllers
                 ILoggerFactory loggerFactory,
                 TokenDescriptor tokenDescriptor,
                 IOptions<JwtTokenOptions> jwtTokenOptions,
-                IBus bus,
-                IDomainNotificationHandler<DomainNotification> notifications,
+                INotificationHandler<DomainNotification> notifications,
+                // ssbcvp - parei aqui - mediator
                 IUser user,
-                IOrganizadorRepository organizadorRepository) : base(notifications, user, bus)
+                IOrganizadorRepository organizadorRepository,
+                IMediatorHandler mediator) : base(notifications, user, mediator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _bus = bus;
+            _mediator = mediator;
             _organizadorRepository = organizadorRepository;
             _tokenDescriptor = tokenDescriptor;
 
@@ -83,7 +85,7 @@ namespace Eventos.IO.Services.Api.Controllers
                 await _userManager.AddClaimAsync(user, new Claim("Eventos", "Gravar"));
 
                 var registroCommand = new RegistrarOrganizadorCommand(Guid.Parse(user.Id), model.Nome, model.CPF, user.Email);
-                _bus.SendCommand(registroCommand);
+                _mediator.EnviarComando(registroCommand);
 
                 // Se o organizador não for criado por algum motivo apaga também o usuário criado no Identity
                 if (!OperacaoValida())

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Eventos.IO.Application.Interfaces;
 using Eventos.IO.Application.ViewModels;
-using Eventos.IO.Domain.Core.Bus;
 using Eventos.IO.Domain.Eventos.Commands;
 using Eventos.IO.Domain.Eventos.Repository;
 using Eventos.IO.Domain.Interfaces;
@@ -12,18 +11,18 @@ namespace Eventos.IO.Application.Services
 {
     public class EventoAppService : IEventoAppService
     {
-        private readonly IBus _bus;
+        private readonly IMediatorHandler _mediator;
         private readonly IMapper _mapper;
         private readonly IEventoRepository _eventoRepository;
         private readonly IUser _user;
 
         // O bus vai enviar estas mensagens para uma fila
-        public EventoAppService(IBus bus,
+        public EventoAppService(IMediatorHandler mediator,
                                 IMapper mapper,
                                 IEventoRepository eventoRepository,
                                 IUser user)
         {
-            _bus = bus;
+            _mediator = mediator;
             _mapper = mapper;
             _eventoRepository = eventoRepository;
             _user = user;
@@ -32,7 +31,7 @@ namespace Eventos.IO.Application.Services
         public void Registrar(EventoViewModel eventoViewModel)
         {
             var registroCommand = _mapper.Map<RegistrarEventoCommand>(eventoViewModel);
-            _bus.SendCommand(registroCommand);
+            _mediator.EnviarComando(registroCommand);
         }
 
         public IEnumerable<EventoViewModel> ObterEventoPorOrganizador(Guid organizadorId)
@@ -64,24 +63,24 @@ namespace Eventos.IO.Application.Services
         public void Atualizar(EventoViewModel eventoViewModel)
         {
             var atualizarEventoCommmand = _mapper.Map<AtualizarEventoCommand>(eventoViewModel);
-            _bus.SendCommand(atualizarEventoCommmand);
+            _mediator.EnviarComando(atualizarEventoCommmand);
         }
 
         public void Excluir(Guid id)
         {
-            _bus.SendCommand(new ExcluirEventoCommand(id));
+            _mediator.EnviarComando(new ExcluirEventoCommand(id));
         }
 
         public void AdicionarEndereco(EnderecoViewModel enderecoViewModel)
         {
             var enderecoCommand = _mapper.Map<IncluirEnderecoEventoCommand>(enderecoViewModel);
-            _bus.SendCommand(enderecoCommand);
+            _mediator.EnviarComando(enderecoCommand);
         }
 
         public void AtualizarEndereco(EnderecoViewModel enderecoViewModel)
         {
             var enderecoCommand = _mapper.Map<AtualizarEnderecoEventoCommand>(enderecoViewModel);
-            _bus.SendCommand(enderecoCommand);
+            _mediator.EnviarComando(enderecoCommand);
         }
 
         public EnderecoViewModel ObterEnderecoPorId(Guid id)

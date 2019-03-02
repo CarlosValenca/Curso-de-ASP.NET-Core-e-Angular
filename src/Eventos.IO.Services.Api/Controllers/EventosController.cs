@@ -1,15 +1,16 @@
-﻿using AutoMapper;
-using Eventos.IO.Application.Interfaces;
-using Eventos.IO.Application.ViewModels;
-using Eventos.IO.Domain.Core.Bus;
+﻿using System;
+using System.Collections.Generic;
+using AutoMapper;
 using Eventos.IO.Domain.Core.Notifications;
 using Eventos.IO.Domain.Eventos.Commands;
 using Eventos.IO.Domain.Eventos.Repository;
 using Eventos.IO.Domain.Interfaces;
+using Eventos.IO.Application.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Eventos.IO.Application.Interfaces;
+//using Eventos.IO.Domain.Interfaces;
 
 namespace Eventos.IO.Services.Api.Controllers
 {
@@ -17,22 +18,22 @@ namespace Eventos.IO.Services.Api.Controllers
     {
 
         private readonly IEventoAppService _eventoAppService;
-        private readonly IBus _bus;
+        private readonly IMediatorHandler _mediator;
         private readonly IEventoRepository _eventoRepository;
         private readonly IMapper _mapper;
 
         public EventosController(
-                                 IDomainNotificationHandler<DomainNotification> notifications,
+                                 INotificationHandler<DomainNotification> notifications,
                                  IUser user,
-                                 IBus bus,
+                                 IMediatorHandler mediator,
                                  IEventoAppService eventoAppService,
                                  IEventoRepository eventoRepository,
-                                 IMapper mapper) : base(notifications, user, bus)
+                                 IMapper mapper) : base(notifications, user, mediator)
         {
             _eventoAppService = eventoAppService;
             _eventoRepository = eventoRepository;
             _mapper = mapper;
-            _bus = bus;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -90,7 +91,7 @@ namespace Eventos.IO.Services.Api.Controllers
 
             var eventoCommand = _mapper.Map<RegistrarEventoCommand>(eventoViewModel);
 
-            _bus.SendCommand(eventoCommand);
+            _mediator.EnviarComando(eventoCommand);
             return Response(eventoCommand);
         }
 
@@ -132,7 +133,7 @@ namespace Eventos.IO.Services.Api.Controllers
 
             var eventoCommand = _mapper.Map<IncluirEnderecoEventoCommand>(enderecoViewModel);
 
-            _bus.SendCommand(eventoCommand);
+            _mediator.EnviarComando(eventoCommand);
             return Response(eventoCommand);
         }
 
@@ -148,7 +149,7 @@ namespace Eventos.IO.Services.Api.Controllers
 
             var eventoCommand = _mapper.Map<AtualizarEnderecoEventoCommand>(enderecoViewModel);
 
-            _bus.SendCommand(eventoCommand);
+            _mediator.EnviarComando(eventoCommand);
             return Response(eventoCommand);
         }
 
