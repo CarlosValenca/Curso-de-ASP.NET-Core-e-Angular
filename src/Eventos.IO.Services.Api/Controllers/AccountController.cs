@@ -40,7 +40,6 @@ namespace Eventos.IO.Services.Api.Controllers
                 TokenDescriptor tokenDescriptor,
                 IOptions<JwtTokenOptions> jwtTokenOptions,
                 INotificationHandler<DomainNotification> notifications,
-                // ssbcvp - parei aqui - mediator
                 IUser user,
                 IOrganizadorRepository organizadorRepository,
                 IMediatorHandler mediator) : base(notifications, user, mediator)

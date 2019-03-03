@@ -65,3 +65,9 @@ install-package Swashbuckle.AspNetCore
 Para funcionar o Token nas Apis, é necessário instalar os pacotes abaixo em 5 - Infra Eventos.IO.Infra.CrossCutting.Identity
 e também no meu projeto 02 - Services
 install-package Microsoft.AspNetCore.Authentication.JwtBearer
+
+06 - Testes
+install-package MOQg
+
+Para os testes integrados precisamos criar um servidor de teste
+install-package Microsoft.AspNetCore.TestHost
