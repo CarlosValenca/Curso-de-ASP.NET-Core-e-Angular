@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventos.IO.Services.Api", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Tests", "6 - Tests", "{98761EAB-C512-4E6F-9177-A5B9C5EE0B77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventos.IO.Tests.API", "tests\Eventos.IO.Tests.API\Eventos.IO.Tests.API.csproj", "{5E2132D4-36F7-4B2D-98F0-1309273E8F4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eventos.IO.Tests.API", "tests\Eventos.IO.Tests.API\Eventos.IO.Tests.API.csproj", "{5E2132D4-36F7-4B2D-98F0-1309273E8F4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eventos.IO.TestesAutomatizados", "tests\Eventos.IO.TestesAutomatizados\Eventos.IO.TestesAutomatizados.csproj", "{C04812D0-8735-416C-BADD-01DBB01B6B10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{5E2132D4-36F7-4B2D-98F0-1309273E8F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E2132D4-36F7-4B2D-98F0-1309273E8F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E2132D4-36F7-4B2D-98F0-1309273E8F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04812D0-8735-416C-BADD-01DBB01B6B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04812D0-8735-416C-BADD-01DBB01B6B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04812D0-8735-416C-BADD-01DBB01B6B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04812D0-8735-416C-BADD-01DBB01B6B10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{98394FFE-0AFE-4F64-9279-AD327B368AD8} = {7A3A326C-AF99-4E83-AE5F-B9B3005E24A1}
 		{F0D683C3-A183-48B6-B9F8-F8EFC636DC91} = {F0327854-9F66-4AAD-80FC-CFCCD64A7B0D}
 		{5E2132D4-36F7-4B2D-98F0-1309273E8F4B} = {98761EAB-C512-4E6F-9177-A5B9C5EE0B77}
+		{C04812D0-8735-416C-BADD-01DBB01B6B10} = {98761EAB-C512-4E6F-9177-A5B9C5EE0B77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {660156F0-62E5-415D-A51A-3816A2A800E8}

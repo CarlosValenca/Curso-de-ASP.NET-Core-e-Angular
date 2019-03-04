@@ -14,6 +14,7 @@ namespace Eventos.IO.Services.Api
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("https://*:44391")
                 .UseDefaultServiceProvider(options => options.ValidateScopes = false);
     }
 }
