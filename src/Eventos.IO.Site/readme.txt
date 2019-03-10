@@ -1,4 +1,18 @@
-﻿email: carlos_valenca@uol.com.br
+﻿Instalar o Projeto a Partir do GitHub
+
+Clonar o projeto na pasta Eventos.IO:  git clone https://github.com/CarlosValenca/Curso-de-ASP.NET-Core-e-Angular.git Eventos.IO
+
+Abrir o projeto e aguardar restaurar as referências
+
+No projeto 6 - Eventos.IO.TestesAutomatizados incluir 2 pacotes nugets:
+1) MSTest.TestAdapter
+2) MSTest.TestFramework
+
+Eu alterei também o gitignore para que a pasta wwwroot.lib fosse enviada para o repositório de modo a podermos ver a página com o bootstrap e
+demais dependências
+
+
+email: carlos_valenca@uol.com.br
 email Organizador: organizador@me.com
 password: Temp@123
 
@@ -115,3 +129,21 @@ Os campos Data Inicio e Data Fim tem uma forma diferente de pegar o Id:
 2) Inspecione a página e em especial uma das duas datas
 3) Clique para copiar e copiar XPath, vc vai obter um valor similar a este: //*[@id="dataInicio"]/div/div/input (Dado o id e a data de início eu vou descer 1, 2 Divs e pegar o input que está lá dentro)
 4) Este valor poderá ser utilizado no cenário de testes para determinar o campo Data Início ou Data Fim
+
+31 - Docker Básico
+
+1) Criar uma conta no Docker
+2) Baixar e instalar a versão Community para Windows : https://hub.docker.com/editions/community/docker-ce-desktop-windows
+3) Habilitar na BIOS a virtualização
+4) Ao entrar no Windows aguardar a inicialização do Docker
+5) Em settings "Shared Drives" habilitar os drives que vc deseja que fiquem a disposição dos containers criados
+6) instale também o Kitematic pelo menu do Docker (vc tem que criar manualmente a pasta C:\Program Files\Docker\Kitematic e extrair os arquivos compactados para lá)
+7) Para ver e controlar as Virtual Machines utilizadas pelo Docker procure no Windows por "Gerenciador do Hyper-V"
+8) Vamos criar uma imagem em um primeiro container
+8.1) Fazer o login: docker login (carlosvalenca - senha)
+8.2) Baixar a imagem desejada, ex: docker pull hello-world
+8.3) Para ver as imagens existentes basta dar o comando: "docker images"
+8.4) Para colocar a imagem em um container: docker run hello-world
+8.5) Se apareceu a mensagem "Hello from Docker!" é por que a instalação e configuração do Docker estão OK
+8.6) O comando "docker container ls" lista os containers existentes (menos o hello-world)
+
