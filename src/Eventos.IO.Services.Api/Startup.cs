@@ -54,7 +54,8 @@ namespace Eventos.IO.Services.Api
             */
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                // Aqui podemos usar o "DefaultConnection" para trabalhar com o LocalDB ou o "SqlServerConnection" para trabalhar com o Sql Server 2017 instalado
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
             // Token(core 2.2)
             var tokenConfigurations = new TokenDescriptor();

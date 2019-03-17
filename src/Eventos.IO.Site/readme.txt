@@ -147,3 +147,76 @@ Os campos Data Inicio e Data Fim tem uma forma diferente de pegar o Id:
 8.5) Se apareceu a mensagem "Hello from Docker!" é por que a instalação e configuração do Docker estão OK
 8.6) O comando "docker container ls" lista os containers existentes (menos o hello-world)
 
+32 - Incluindo uma Segunda String de Conexão Sql Server Prepando para o Docker
+
+1) Instalar o Microsoft Sql Server Management Studio versão para Developers (que é full e troque a linguagem para inglês)
+
+2) Instalar o Sql Server 2017 Configuration Manager
+
+3) Crie o Login EventosIOLogin com a senha eio123
+
+4) Configurações Importantes:
+4.1) No SERVER FAMILIA2 em Security escolher a opção "Sql Server and Windows Authentication Mode"
+4.2) Abra o Sql Server Configuration Manager
+4.5) Procure todas as propriedades TCP/IP e habilite (TODAS)
+4.4) Escolha Serviços do Sql Server e Reinicie o MSSQLSERVER
+4.7) Feche o Sql Server
+4.8) Ao reabrir conecte-se com o Login (EventosIOLogin) + Senha (eio123)
+
+5) Mude a string de conexão passando o seu iplocal + "," + a porta (ipconfig o primeiro 192.168....,1433 por exemplo)
+5.1) Rode todas as Migrations, para o Identity é mais fácil criar um projeto temporário com autenticação, gere as migrations e apague o projeto (cadastre a claim etc...)
+5.2) Rode as demais migrations tb
+
+6) Teste o swagger e o serviço de categorias por exemplo
+6.1) Se estiver funcionando vc está pronto para o próximo capítulo
+
+7) Como agora temos 2 strings de conexão atente para o seguinte:
+7.1) Qdo vc quiser testar o LocalDB olhe nas strings de conexão e coloque no comando UseSqlServer no GetConnectionString o valor "DefaultConnection"
+7.2) Qdo vc quiser testar o SqlServer olhe nas strings de conexão e coloque no comando UseSqlServer no GetConnectionString o valor "SqlServerConnection",
+para o serviço e o Docker funcionar precisa ser esta a string de conexão
+7.3) Ao trocar a string de conexão fazer um build da solução inteira para que os appsettings sejam jogados para a pasta debug bin
+7.4) Também faça um logout e um novo login para poder ver e alterar os dados do banco correto
+
+8) Algumas consultas e configurações adicionais no SQL Server que podem ser uteis
+
+Para adicionar um usuário ao banco de dados do SQL Server você tem que seguir três passos:
+ 
+Primeiro: você deve criar um login, que é um "cara" que tem permisssão de se logar no SQL Sever
+ 
+CREATE LOGIN EventosIOLogin WITH PASSWORD = 'eio123';
+ 
+Segundo: você deve criar um usuário para o banco de dados que deseja mapeando esse usuário para o login criado, assim seu usuário conseguirá se logar no SQL Server e entrar no banco de dados desejado.
+ 
+CREATE USER EventosIOUser FROM LOGIN EventosIOLogin;
+ 
+Terceiro: você deve dar ou remover permissões ao usuário porque até o segundo passo o usuário criado só tem direito a entrar no banco de dados, dando as permissões o usuário já pode operar no banco de dados. Se o usuário for comum você pode adicioná-lo apenas as roles de db_reader e db_writer, que permitirá que o usuário faça select, insert, delete e update em todas as tabelas do referido banco de dados.
+ 
+EXEC SP_ADDROLEMEMBER 'DB_DATAREADER', 'EventosIOUser'
+ 
+EXEC SP_ADDROLEMEMBER 'DB_DATAWRITER', 'EventosIOUser'
+ 
+Se quiser ver melhor isso na parte gráfica, pode consultar dentro do "Object Explorer" a guia "Security", dentro dela clique em "Login", botão direito em "sa", "Properties", escolha a guia "User Mapping". Aqui você verá as roles do SQL Server pra cada usuário. Caso queira saber o que dá direito a cada role procure no SQL Server Books Online.
+
+9) Preparação para o próximo capítulo, Configurando o Firewall no Windows:
+9.1) Abra o Windows Defender Firewall
+9.2) No Sql Server Configuration Manager em Configuração do SQL Native Client, escolha a propriedde TCP/IP e veja o número da porta,
+esta porta DEVE estar na string de conexão logo após o SERVER separado por ","
+9.3) Selecione Configurações Avançadas, Regras de Entrada, Nova Regra, informe a porta acima e de permissão geral para esta porta
+
+10) Consultas Úteis para o próximo capítulo:
+
+Consultas Úteis para o Docker:
+
+SELECT @@SERVERNAME,
+ CONNECTIONPROPERTY('net_transport') AS net_transport,
+ CONNECTIONPROPERTY('protocol_type') AS protocol_type,
+ CONNECTIONPROPERTY('auth_scheme') AS auth_scheme,
+ CONNECTIONPROPERTY('local_net_address') AS local_net_address,
+ CONNECTIONPROPERTY('local_tcp_port') AS local_tcp_port,
+ CONNECTIONPROPERTY('client_net_address') AS client_net_address
+
+SELECT TOP 1 local_tcp_port 
+FROM sys.dm_exec_connections
+WHERE local_tcp_port IS NOT NULL
+
+SELECT @@SERVERNAME

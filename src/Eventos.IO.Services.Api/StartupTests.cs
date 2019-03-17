@@ -52,7 +52,7 @@ namespace Eventos.IO.Services.Api
             services.AddCors();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
             // Token(core 2.2)
             var tokenConfigurations = new TokenDescriptor();

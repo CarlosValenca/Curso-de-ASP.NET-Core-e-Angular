@@ -40,9 +40,14 @@ namespace Eventos.IO.Site
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // As variáveis a seguir existem apenas para debugar a string de conexão
+            var a = AppDomain.CurrentDomain.BaseDirectory;
+            var b = Configuration.GetConnectionString("SqlServerConnection");
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    // Aqui podemos usar o "DefaultConnection" para trabalhar com o LocalDB ou o "SqlServerConnection" para trabalhar com o Sql Server 2017 instalado
+                    Configuration.GetConnectionString("SqlServerConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
