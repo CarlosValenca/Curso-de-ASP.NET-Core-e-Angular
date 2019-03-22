@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  curso.api:
+    image: ${DOCKER_REGISTRY-}curso.api
+    build:
+      context: .
+      dockerfile: src/Eventos.IO.Services.Api/Dockerfile

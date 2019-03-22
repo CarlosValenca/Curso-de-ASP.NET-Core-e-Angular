@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  curso.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:44391;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44391
+    ports:
+      - "63666:80"
+      - "44391:44391"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
